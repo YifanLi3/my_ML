@@ -2,7 +2,7 @@ from sklearn.datasets import load_iris
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split   #分割测试集和训练集
+from sklearn.model_selection import train_test_split, GridSearchCV   #分割测试集和训练集
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score  #模型评估。计算模型的准确率
@@ -71,8 +71,39 @@ def demo04_iris_test():
     print(accuracy_score(y_test, y_test_pred))
 
 
+def demo05_gscv():
+    iris_data = load_iris()
+    x_train, x_test, y_train, y_test = train_test_split(
+                        iris_data.data, 
+                        iris_data.target, 
+                        test_size=0.2, 
+                        random_state=2
+                        )
+    
+    transfer = StandardScaler()
+    x_train = transfer.fit_transform(x_train)
+    x_test = transfer.transform(x_test)
+
+    estimator = KNeighborsClassifier()
+    param_dict = {'n_neighbors': [i for i in range(1, 11)]}
+
+    estimator = GridSearchCV(estimator, param_grid=param_dict, cv=4)
+
+    estimator.fit(x_train, y_train)
+
+    print(estimator.best_params_)
+    print(estimator.best_score_)
+    print(estimator.best_estimator_)
+    #print(estimator.cv_results_)
+
+    best_estimator = estimator.best_estimator_
+    y_pred = best_estimator.predict(x_test)
+    print(accuracy_score(y_test, y_pred))
+
+
 if __name__ == '__main__':
     #demo01_load_iris()
     #demo02_show_iris()
     #demo03_split_train_test()
-    demo04_iris_test()
+    #demo04_iris_test()
+    demo05_gscv()
