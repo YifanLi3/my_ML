@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 TEMPERATURE = 30
 
-def demo01():
+def ema():
     # stable random number
     torch.manual_seed(42)
 
@@ -23,17 +23,32 @@ def demo01():
         sum = ema[i-1] * beta + (1 - beta) * temp
         ema.append(sum)
 
+    print (isinstance(ema, list))
+    print (isinstance(temper, list))
 
-    fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(date, temper, label="Temperature")
-    ax.scatter(date, temper)
-    ax.set_xlabel("Day")
-    ax.set_ylabel("Temperature")
-    ax.set_title("Random Temperature")
-    ax.legend()
-    ax.grid(alpha=0.3)
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    ax1.plot(date, temper, label="Temperature")
+    ax1.scatter(date, temper)
+    ax1.set_xlabel("Day")
+    ax1.set_ylabel("Temperature")
+    ax1.set_title("Random Temperature")
+    ax1.legend()
+    ax1.grid(alpha=0.3)
+
+    ax2.plot(date, ema, label="EMA Temperature")
+    ax2.scatter(date, ema)
+    ax2.set_xlabel("Day")
+    ax2.set_ylabel("Temperature")
+    ax2.set_title("EMA Temperature")
+    ax2.legend()
+    ax2.grid(alpha=0.3)
 
     plt.show()
 
+def momentum():
+    
+
+
 if __name__ == '__main__':
-    demo01()
+    ema()
