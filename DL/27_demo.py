@@ -66,7 +66,7 @@ def train(train_dataset, input_dim, output_dim):
             total_loss += loss.item()
             batch_num += 1
 
-        print(f"epoch {epoch+1}, loss: {total_loss/batch_num}")
+        print(f"epoch {epoch+1}, loss: {total_loss/batch_num}:.4f, time")
 
 
 if __name__ == "__main__":
